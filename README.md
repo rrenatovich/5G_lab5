@@ -30,4 +30,10 @@
 
 
 # Задание 2 
+![Alt text](models_from_dist.png)
+
+# Задание 3 
+![Alt text](shenon_model_from_dist.png)![Alt text](shenon_FSPL_from_dist.png)
+
+
 

@@ -13,7 +13,7 @@ B = 400 * MHz # ширина канала
 N = -174 # тепловой шум
 
 shennon_dBm_list = [], [], []
-d = 100 # значение расстояния
+d = 240 # значение расстояния
 for i in range(len(shennon_dBm_list)):
   for j in range(1, d + 1):
     # вычисление значений скорости Шеннона для всех расстояний
@@ -49,3 +49,82 @@ print('Зависимость от Pt')
 for i in range(3):
   print(f"Скорость Шеннона: {round(shennon_dBm(SNR_W(FSPL_W(f[0], d), B, N, increase_list[0], Pt_list[i]), B), 3)}, f = {int(f[0])} Гц, усил = {increase_list[0]} дБ, Pt = {Pt_list[i]} дБм")
 
+# Task 2 
+
+FSPL_dBm_list = []
+UMaLOS_dBm_list = []
+UMaNLOS_dBm_list = []
+InHLOS_dBm_list = []
+InHNLOS_dBm_list = []
+d = 240 # значение расстояния
+for i in range(10, d + 1):
+  # вычисление значений скорости Шеннона для всех расстояний
+  FSPL_dBm_list.append(FSPL_dBm(f[0], i))
+  UMaLOS_dBm_value = UMaLOS_dBm(f[0], i)
+  UMaLOS_dBm_list.append(UMaLOS_dBm_value)
+  UMaNLOS_dBm_list.append(UMaNLOS_dBm(f[0], i, UMaLOS_dBm_value))
+  InHLOS_dBm_value = InHLOS_dBm(f[0], i)
+  InHLOS_dBm_list.append(InHLOS_dBm_value)
+  InHNLOS_dBm_list.append(InHNLOS_dBm(f[0], i, InHLOS_dBm_value))
+
+fig = plt.subplots(figsize=(7, 5))
+
+plt.plot(FSPL_dBm_list, label="FSPL")
+plt.plot(UMaLOS_dBm_list, label="UMaLOS")
+plt.plot(UMaNLOS_dBm_list, label="UMaNLOS")
+plt.plot(InHLOS_dBm_list, label="InHLOS")
+plt.plot(InHNLOS_dBm_list, label="InHNLOS")
+plt.title('Значение моделей распространения от расстояния', fontsize=14, fontweight="bold")
+plt.xlabel('Значение расстояния', fontsize=12)
+plt.ylabel('дБм', fontsize=12)
+plt.xlim(0, d - 10)
+plt.grid()
+plt.legend()
+plt.savefig('models_from_dist.png')
+
+
+# Task 3 
+
+FSPL_shennon_dBm_list = []
+UMaLOS_shennon_dBm_list = []
+UMaNLOS_shennon_dBm_list = []
+InHLOS_shennon_dBm_list = []
+InHNLOS_shennon_dBm_list = []
+d = 130 # значение расстояния
+for i in range(10, d + 1):
+  # вычисление значений скорости Шеннона для всех расстояний
+  FSPL_shennon_dBm_list.append(shennon_dBm(SNR_W(FSPL_W(f[0], i), B, N, increase, Pt), B))
+  UMaLOS_dBm_value = UMaLOS_dBm(f[0], i)
+  UMaLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(UMaLOS_dBm_value), B, N, increase, Pt), B))
+  UMaNLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(UMaNLOS_dBm(f[0], i, UMaLOS_dBm_value)), B, N, increase, Pt), B))
+  InHLOS_dBm_value = InHLOS_dBm(f[0], i)
+  InHLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(InHLOS_dBm_value), B, N, increase, Pt), B))
+  InHNLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(InHNLOS_dBm(f[0], i, InHLOS_dBm_value)), B, N, increase, Pt), B))
+
+fig = plt.subplots(figsize=(7, 5))
+
+# график значения скорости Шеннона от расстояния
+plt.plot(UMaLOS_shennon_dBm_list, label="UMaLOS")
+plt.plot(UMaNLOS_shennon_dBm_list, label="UMaNLOS")
+plt.plot(InHLOS_shennon_dBm_list, label="InHLOS")
+plt.plot(InHNLOS_shennon_dBm_list, label="InHNLOS")
+plt.title('Значение скорости Шеннона от расстояния', fontsize=14, fontweight="bold")
+plt.xlabel('Значение расстояния', fontsize=12)
+plt.ylabel('Значение скорости', fontsize=12)
+plt.xlim(0, d - 10)
+plt.grid()
+plt.legend(loc=1)
+plt.savefig('shenon_model_from_dist.png')
+
+
+fig = plt.subplots(figsize=(7, 5))
+
+# график значения скорости Шеннона от расстояния для нескольких частот
+plt.plot(FSPL_shennon_dBm_list, label="FSPL")
+plt.title('Значение скорости Шеннона от расстояния', fontsize=14, fontweight="bold")
+plt.xlabel('Значение расстояния', fontsize=12)
+plt.ylabel('Значение скорости', fontsize=12)
+plt.xlim(0, d - 10)
+plt.grid()
+plt.legend(loc=1)
+plt.savefig('shenon_FSPL_from_dist.png')
