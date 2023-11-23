@@ -90,7 +90,7 @@ UMaLOS_shennon_dBm_list = []
 UMaNLOS_shennon_dBm_list = []
 InHLOS_shennon_dBm_list = []
 InHNLOS_shennon_dBm_list = []
-d = 130 # значение расстояния
+d = 120 # значение расстояния
 for i in range(10, d + 1):
   # вычисление значений скорости Шеннона для всех расстояний
   FSPL_shennon_dBm_list.append(shennon_dBm(SNR_W(FSPL_W(f[0], i), B, N, increase, Pt), B))
