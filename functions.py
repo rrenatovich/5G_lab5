@@ -77,7 +77,7 @@ def UMaNLOS_dBm(f, d, PL_UMaLOS):
 def InHLOS_dBm(f, d):
   d_3D = d_3D_value(h_BS, h_UT, d)
   if 1 <= d_3D and d_3D <= 150:
-    return 32.4 + 17.3 * math.log10(d_3D_value(h_BS, h_UT, d)) + 20 * math.log10(f)
+    return 32.4 + 17.3 * math.log10(d_3D) + 20 * math.log10(f)
   else:
     return 0
 

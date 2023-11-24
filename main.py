@@ -41,13 +41,13 @@ Pt_list = [23, 25, 30]
 
 print('Зависимость от частоты')
 for i in range(3):
-  print(f"Скорость Шеннона: {round(shennon_dBm(SNR_W(FSPL_W(f[i], d), B, N, increase_list[0], Pt_list[0]), B), 3)}, f = {int(f[i])} Гц, усил = {increase_list[0]} дБ, Pt = {Pt_list[0]} дБм")
+  print(f"Скорость Шеннона: {round(shennon_dBm(SNR_W(FSPL_W(f[i], d), B, N, increase_list[0], Pt_list[0]), B), 3)}, f = {int(f[i])} Гц, усил = {increase_list[0]} дБ, Pt ={Pt_list[0]} дБм"))
 print('Зависимость от усиления')
 for i in range(3):
   print(f"Скорость Шеннона: {round(shennon_dBm(SNR_W(FSPL_W(f[0], d), B, N, increase_list[i], Pt_list[0]), B), 3)}, f = {int(f[0])} Гц, усил = {increase_list[i]} дБ, Pt = {Pt_list[0]} дБм")
 print('Зависимость от Pt')
 for i in range(3):
-  print(f"Скорость Шеннона: {round(shennon_dBm(SNR_W(FSPL_W(f[0], d), B, N, increase_list[0], Pt_list[i]), B), 3)}, f = {int(f[0])} Гц, усил = {increase_list[0]} дБ, Pt = {Pt_list[i]} дБм")
+  print(f"Скорость Шеннона: {round(shennon_dBm(SNR_W(FSPL_W(f[0], d), B, N,increase_list[0], Pt_list[i]), B), 3)}, f = {int(f[0])} Гц, усил = {increase_list[0]} дБ, Pt = {Pt_list[i]} дБм")
 
 # Task 2 
 
@@ -95,11 +95,11 @@ for i in range(10, d + 1):
   # вычисление значений скорости Шеннона для всех расстояний
   FSPL_shennon_dBm_list.append(shennon_dBm(SNR_W(FSPL_W(f[0], i), B, N, increase, Pt), B))
   UMaLOS_dBm_value = UMaLOS_dBm(f[0], i)
-  UMaLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(UMaLOS_dBm_value), B, N, increase, Pt), B))
+  UMaLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(UMaLOS_dBm_value), B,N, increase, Pt), B))
   UMaNLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(UMaNLOS_dBm(f[0], i, UMaLOS_dBm_value)), B, N, increase, Pt), B))
   InHLOS_dBm_value = InHLOS_dBm(f[0], i)
   InHLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(InHLOS_dBm_value), B, N, increase, Pt), B))
-  InHNLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(InHNLOS_dBm(f[0], i, InHLOS_dBm_value)), B, N, increase, Pt), B))
+  InHNLOS_shennon_dBm_list.append(shennon_dBm(SNR_W(dBm_to_W(InHNLOS_dBm(f[0], i,InHLOS_dBm_value)), B, N, increase, Pt), B))
 
 fig = plt.subplots(figsize=(7, 5))
 
@@ -113,7 +113,6 @@ plt.xlabel('Значение расстояния', fontsize=12)
 plt.ylabel('Значение скорости', fontsize=12)
 plt.xlim(0, d - 10)
 plt.grid()
-plt.legend(loc=1)
 plt.savefig('shenon_model_from_dist.png')
 
 
@@ -123,8 +122,7 @@ fig = plt.subplots(figsize=(7, 5))
 plt.plot(FSPL_shennon_dBm_list, label="FSPL")
 plt.title('Значение скорости Шеннона от расстояния', fontsize=14, fontweight="bold")
 plt.xlabel('Значение расстояния', fontsize=12)
-plt.ylabel('Значение скорости', fontsize=12)
+plt.ylabel('Скорость', fontsize=12)
 plt.xlim(0, d - 10)
 plt.grid()
-plt.legend(loc=1)
 plt.savefig('shenon_FSPL_from_dist.png')
